@@ -85,6 +85,32 @@ async function pretixOrdersToNames() {
   }
 }
 
+async function writeBadges() {
+  try {
+    let attendeeNames = await pretixOrdersToNames();
+    console.log(typeof attendeeNames);
+    attendeeNames = await enrichNamesWithAvatarAndHandle(attendeeNames);
+
+    await Promise.all(attendeeNames.map(async (entry) => {
+        const { name, gitHubName, gitHubHandle, pictureUrl } = entry;
+        // prio: gitHubHandle > gitHubName > name
+        const displayName = gitHubHandle || gitHubName || name;
+        const output =
+          svgTemplate
+            .replace(dummyName, displayName) // TODO: add line break
+            .replace(dummyPic, pictureUrl)
+            ;
+
+      const fileName = `${name.replace(/\//g, '_')}.svg`;
+      const filePath = `${outputDir}${fileName}`;
+
+      await fsPromises.writeFile(filePath, output);
+      }));
+  } catch (error) {
+    console.error('error writing badges:', error.message);
+  }
+};
+
 
   fs.writeFileSync(filePath, output);
 });
@@ -126,3 +152,4 @@ async function enrichNamesWithAvatarAndHandle(attendeeNames) {
     console.error('error enrichNamesWithAvatarAndHandle:', error.message);
   }
 };
+writeBadges();
