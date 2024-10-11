@@ -5,14 +5,15 @@ import axios from 'axios';
 // async file operations
 const svgTemplate = await fsPromises.readFile('./badges_a7.svg', 'utf8');
 const outputDir = './output/';
+// ensure folder exists
 if (!fs.existsSync(outputDir)){
-    fs.mkdirSync(outputDir);
+  fs.mkdirSync(outputDir);
 }
+// dummy data
 const dummyName = "{NAME} ";
 const dummyPic = "../../../../Volumes/u267156.your-storagebox.de/illusUndArbeit/nix/nixcon_2024/avatar.jpg";
 
-const jsonEntries = data.entries;
-console.log('entries: ', jsonEntries);
+// ---- functions ----
 async function getAllPretixOrdersEntries() {
   const { ORGANIZER: organizer, EVENT: event, TOKEN: token } = process.env;
   const url=`https://pretix.eu/api/v1/organizers/${organizer}/events/${event}/orders/`;
@@ -43,8 +44,6 @@ async function getAllPretixOrdersEntries() {
   }
 };
 
-  const fileName = `${name.replace(/\//g, '_')}.svg`;
-  const filePath = `${outputDir}${fileName}`;
 async function pretixOrdersToNames() {
   try {
     const data = await getAllPretixOrdersEntries();
@@ -112,8 +111,6 @@ async function writeBadges() {
 };
 
 
-  fs.writeFileSync(filePath, output);
-});
 async function enrichNamesWithAvatarAndHandle(attendeeNames) {
   const githubToken = process.env.GITHUB_TOKEN;
   //TODO cut url parts from name
