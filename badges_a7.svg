@@ -1006,6 +1006,8 @@ DejaVu changes are in public domain
 	</g>
 </g>
 <g id="name">
-	<text transform="matrix(1 0 0 1 175.3161 152.4183)" class="st4 st5 st6">{NAME} </text>
+  <foreignObject class="st4 st5 st6" transform="matrix(1 0 0 1 176.3161 122.4183)" width="100" height="100">
+    <div xmlns="http://www.w3.org/1999/xhtml">{NAME}</div>
+  </foreignObject>
 </g>
 </svg>

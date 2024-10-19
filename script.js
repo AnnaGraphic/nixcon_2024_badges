@@ -10,8 +10,8 @@ if (!fs.existsSync(outputDir)){
   fs.mkdirSync(outputDir);
 }
 // dummy data
-const dummyName = "{NAME} ";
 const dummyPic = "../../../../Volumes/u267156.your-storagebox.de/illusUndArbeit/nix/nixcon_2024/avatar.jpg";
+const dummyName = "{NAME}";
 
 // ---- functions ----
 async function getAllPretixOrdersEntries() {
@@ -96,7 +96,7 @@ async function writeBadges() {
         const displayName = gitHubHandle || gitHubName || name;
         const output =
           svgTemplate
-            .replace(dummyName, displayName) // TODO: add line break
+            .replace(dummyName, displayName)
             .replace(dummyPic, pictureUrl)
             ;
 
