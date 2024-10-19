@@ -58,8 +58,8 @@ async function pretixOrdersToNames() {
         if (part.answers) {
           const gitHubAnswer = part.answers?.find(answer => answer.question == 121956);
           if (gitHubAnswer) {
-            gitHubName = gitHubAnswer.answer;
             name = gitHubAnswer.answer;
+            gitHubName = sanitizeName(gitHubAnswer.answer);
             break;
           }
         }
@@ -82,6 +82,14 @@ async function pretixOrdersToNames() {
     console.error('poor error message: ', error.message);
     throw error;
   }
+}
+
+function sanitizeName(name) {
+  console.log('------sanitizeName------');
+  return name
+    .replace(/^.*\//, '')
+    .replace(/^@/, '')
+    ;
 }
 
 async function writeBadges() {
@@ -118,7 +126,6 @@ async function enrichNamesWithAvatarAndHandle(attendeeNames) {
   try {
     const enrichedAttendees = await Promise.all(attendeeNames.map(async (attendee) => {
       if (attendee.gitHubName) {
-        // TODO: find and delete @ and paths`
         const userUrl = `https://api.github.com/users/${attendee.gitHubName}`;
         try {
           const response = await axios.get(userUrl, {
