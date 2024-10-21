@@ -10,7 +10,7 @@ if (!fs.existsSync(outputDir)){
   fs.mkdirSync(outputDir);
 }
 // dummy data
-const dummyPic = "../../../../Volumes/u267156.your-storagebox.de/illusUndArbeit/nix/nixcon_2024/avatar.jpg";
+const dummyPic = "avatar.png"
 const dummyName = "{NAME}";
 
 // ---- functions ----
