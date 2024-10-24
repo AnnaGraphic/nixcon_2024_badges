@@ -53,13 +53,12 @@ async function pretixOrdersToNames() {
       let gitHubHandle = null;
       let order = x.positions;
 
-
       for (const part of order) {
         if (part.answers) {
           const gitHubAnswer = part.answers?.find(answer => answer.question == 121956);
           if (gitHubAnswer) {
-            name = gitHubAnswer.answer;
             gitHubName = sanitizeName(gitHubAnswer.answer);
+            name = gitHubAnswer.answer; // killme (after filter below is gone)
             break;
           }
         }
@@ -77,7 +76,12 @@ async function pretixOrdersToNames() {
         pictureUrl: dummyPic,
       };
     });
-  return attendeeNames;
+  return attendeeNames
+   // .filter((attendee) => {
+   //   return attendee.name?.startsWith('@');
+   // })
+   // .slice(1)
+    ;
   } catch (error) {
     console.error('poor error message: ', error.message);
     throw error;
